@@ -9,4 +9,7 @@
     <string name="item_full_name_value">Name</string>
     <string name="item_full_color_value">Color</string>
     <string name="item_full_desc">Description</string>
+    <string name="close_app_dialog">Are you sure?</string>
+    <string name="close_app_dialog_positive_btn">Yes</string>
+    <string name="close_app_dialog_negative_btn">Cancel</string>
 </resources>
