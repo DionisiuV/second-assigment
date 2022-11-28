@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/screenOneFragment">
+
+    <fragment
+        android:id="@+id/screenOneFragment"
+        android:name="com.valentin.secondhomework.view.screenOne.ScreenOneFragment"
+        android:label="fragment_screen_one"
+        tools:layout="@layout/fragment_screen_one">
+        <action
+            android:id="@+id/action_screenOneFragment_to_screenTwoFragment"
+            app:destination="@id/screenTwoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/screenTwoFragment"
+        android:name="com.valentin.secondhomework.view.screenTwo.ScreenTwoFragment"
+        android:label="ScreenTwoFragment"
+        tools:layout="@layout/fragment_screen_two" />
+
+</navigation>
