@@ -1,8 +1,7 @@
 package com.valentin.secondhomework.view.activity.main
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.valentin.secondhomework.R
 import org.koin.java.KoinJavaComponent.inject
@@ -10,55 +9,32 @@ import org.koin.java.KoinJavaComponent.inject
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val viewModel: MainViewModel by inject(MainViewModel::class.java)
+    private var currentDestinationId = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initNav()
-        handleOnBackPressed()
+        onDestinationChangedSetCurrentDestinationId()
     }
 
     private fun initNav() {
         viewModel.setupNavService(this)
     }
 
-    private fun handleOnBackPressed() {
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                handleBackBasedOnCurrentLocation(getCurrentLocation())
-            }
-        })
+    private fun handleBackPressed() {
+        viewModel.handleBackPressedCallBack(currentDestinationId)
     }
 
-    private fun handleBackBasedOnCurrentLocation(currentLocation: String) {
-        when (currentLocation) {
-            "fragment_screen_one" -> showAlertDialog()
-            "fragment_screen_two" -> goToFirstFragment()
-            else -> throw Exception("Unhandled nav route!")
+    private fun setCurrentDestinationId(currentDestinationId: Int) {
+        this.currentDestinationId = currentDestinationId
+    }
+
+    private fun onDestinationChangedSetCurrentDestinationId() {
+        viewModel.getNavController().addOnDestinationChangedListener { _, destination, _ ->
+            setCurrentDestinationId(destination.id)
+            handleBackPressed()
         }
-    }
-
-    private fun showAlertDialog() {
-        AlertDialog.Builder(this).setMessage(R.string.close_app_dialog)
-            .setPositiveButton(R.string.close_app_dialog_positive_btn) { _, _ -> closeApp() }
-            .setNegativeButton(R.string.close_app_dialog_negative_btn) { _, _ -> }
-            .show()
-    }
-
-    private fun closeApp() {
-        finish()
-    }
-
-    private fun goToFirstFragment() {
-        navigateTo(R.id.action_screenTwoFragment_to_screenOneFragment)
-    }
-
-    private fun getCurrentLocation(): String {
-        return viewModel.getNavController().currentDestination!!.label.toString()
-    }
-
-    private fun navigateTo(destinationOrActionId: Int) {
-        viewModel.navigateTo(destinationOrActionId)
     }
 }

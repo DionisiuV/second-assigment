@@ -10,4 +10,6 @@ interface MainActivityNavService {
     fun getNavController(): NavController
 
     fun navigateTo(destinationOrAction: Int)
+
+    fun handleBackPressedCallBack(currentLocationId: Int)
 }

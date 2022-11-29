@@ -16,7 +16,8 @@ class MainViewModel(
         return navService.getNavController()
     }
 
-    fun navigateTo(destinationOrActionId: Int) {
-        navService.navigateTo(destinationOrActionId)
+    fun handleBackPressedCallBack(currentLocationId: Int) {
+        navService.handleBackPressedCallBack(currentLocationId)
     }
+
 }
