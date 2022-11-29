@@ -18,7 +18,11 @@
     <fragment
         android:id="@+id/screenTwoFragment"
         android:name="com.valentin.secondhomework.view.screenTwo.ScreenTwoFragment"
-        android:label="ScreenTwoFragment"
-        tools:layout="@layout/fragment_screen_two" />
+        android:label="fragment_screen_two"
+        tools:layout="@layout/fragment_screen_two">
+        <action
+            android:id="@+id/action_screenTwoFragment_to_screenOneFragment"
+            app:destination="@id/screenOneFragment" />
+    </fragment>
 
 </navigation>

@@ -1,7 +1,6 @@
 package com.valentin.secondhomework.view.activity.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.valentin.secondhomework.R
@@ -15,26 +14,43 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (isFirstFragment()) {
-                    //close the app
-                    Log.d("DEBUG_TAG", "FIRST FRAGMENT, close app")
-                } else {
-                    // nav back
-                    Log.d("DEBUG_TAG", "NAV BACK")
-                }
-            }
-
-        })
         initNav()
-    }
-
-    private fun isFirstFragment(): Boolean {
-        return viewModel.getNavController().graph.startDestinationId == viewModel.getNavController().currentDestination?.id
+        handleOnBackPressed()
     }
 
     private fun initNav() {
         viewModel.setupNavService(this)
+    }
+
+    private fun handleOnBackPressed() {
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                handleBackBasedOnCurrentLocation(getCurrentLocation())
+            }
+        })
+    }
+
+    private fun handleBackBasedOnCurrentLocation(currentLocation: String) {
+        when (currentLocation) {
+            "fragment_screen_one" -> closeApp()
+            "fragment_screen_two" -> goToFirstFragment()
+            else -> throw Exception("Unhandled nav route!")
+        }
+    }
+
+    private fun closeApp() {
+        finish()
+    }
+
+    private fun goToFirstFragment() {
+        navigateTo(R.id.action_screenTwoFragment_to_screenOneFragment)
+    }
+
+    private fun getCurrentLocation(): String {
+        return viewModel.getNavController().currentDestination!!.label.toString()
+    }
+
+    private fun navigateTo(destinationOrActionId: Int) {
+        viewModel.navigateTo(destinationOrActionId)
     }
 }

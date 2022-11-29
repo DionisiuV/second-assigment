@@ -15,4 +15,8 @@ class MainViewModel(
     fun getNavController(): NavController {
         return navService.getNavController()
     }
+
+    fun navigateTo(destinationOrActionId: Int) {
+        navService.navigateTo(destinationOrActionId)
+    }
 }
