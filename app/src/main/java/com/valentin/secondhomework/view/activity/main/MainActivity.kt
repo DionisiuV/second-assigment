@@ -2,6 +2,7 @@ package com.valentin.secondhomework.view.activity.main
 
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.valentin.secondhomework.R
 import org.koin.java.KoinJavaComponent.inject
@@ -32,10 +33,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private fun handleBackBasedOnCurrentLocation(currentLocation: String) {
         when (currentLocation) {
-            "fragment_screen_one" -> closeApp()
+            "fragment_screen_one" -> showAlertDialog()
             "fragment_screen_two" -> goToFirstFragment()
             else -> throw Exception("Unhandled nav route!")
         }
+    }
+
+    private fun showAlertDialog() {
+        AlertDialog.Builder(this).setMessage(R.string.close_app_dialog)
+            .setPositiveButton(R.string.close_app_dialog_positive_btn) { _, _ -> closeApp() }
+            .setNegativeButton(R.string.close_app_dialog_negative_btn) { _, _ -> }
+            .show()
     }
 
     private fun closeApp() {
