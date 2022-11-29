@@ -8,18 +8,18 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/customComponentRV"
+        android:id="@+id/customComponentRVF"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/customComponentRefreshList"
+        app:layout_constraintBottom_toTopOf="@+id/customComponentRefreshListF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_full" />
 
     <Button
-        android:id="@+id/customComponentRefreshList"
+        android:id="@+id/customComponentRefreshListF"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -28,6 +28,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

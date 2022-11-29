@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.valentin.secondhomework.view.customUiComponent.CustomUiComponentFull
-        android:id="@+id/customUiComponentContainer"
+        android:id="@+id/customUiComponentContainerFull"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
