@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.valentin.secondhomework.R
 
-class CustomUiComponentCompact(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
+class CustomUiComponent(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
     init {
-        inflate(context, R.layout.custom_ui_component_compact, this)
+        inflate(context, R.layout.custom_ui_component, this)
     }
 }
