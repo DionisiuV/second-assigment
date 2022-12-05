@@ -12,7 +12,7 @@ class BaseApplication : Application() {
 
     private fun initKoin() {
         startKoin {
-            modules(listOf(viewModelsModules, serviceModules))
+            modules(listOf(viewModelsModules, serviceModules, networkModules))
         }
     }
 }

@@ -2,10 +2,11 @@ package com.valentin.secondhomework.view.screenOne
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.valentin.secondhomework.R
+import com.valentin.secondhomework.model.data.ApiResponse
 import com.valentin.secondhomework.model.data.RandomItem
 import com.valentin.secondhomework.view.genericAdapter.GenericAdapter
 import kotlinx.android.synthetic.main.custom_ui_component.*
@@ -21,29 +22,90 @@ class ScreenOneFragment : Fragment(R.layout.fragment_screen_one) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initUi()
-        updateRV()
-        setSeeMoreBtn()
+
+        updateRecyclerView()
+        setButtonsToBeDisplayed()
     }
 
-    private fun updateRV() {
-        //if adapter not attached, make request to return mock data
-        viewModel.getData().observe(viewLifecycleOwner) {
-            if (adapterIsNotAttached())
-                initAdapter(it)
+    private fun updateRecyclerView() {
+        if (adapterIsNotAttached())
+            getRandomItemsAndTryToSetAdapter()
+    }
+
+    private fun setButtonsToBeDisplayed() {
+        setButtonsVisibility()
+        setClickEvents()
+    }
+
+    private fun getRandomItemsAndTryToSetAdapter() {
+        viewModel.getRandomItems().observe(viewLifecycleOwner) { observeApiResponse(it) }
+    }
+
+
+    private fun refreshAdapterData() {
+        customComponentRVC.adapter = null
+        viewModel.refreshData().observe(viewLifecycleOwner) { observeApiResponse(it) }
+    }
+
+    private fun observeApiResponse(apiResponse: ApiResponse<List<RandomItem>>) {
+        when (apiResponse) {
+            is ApiResponse.Loading -> isLoading()
+            is ApiResponse.Error -> isError()
+            is ApiResponse.Success -> isSuccess(apiResponse.dataSet)
         }
     }
 
-    private fun initUi() {
+    private fun isError() {
+        hideProgressBar()
+        Toast.makeText(requireActivity(), "An error has been occurred...", Toast.LENGTH_SHORT).show()
+        enableClickEvents()
+    }
+
+    private fun isSuccess(dataSet: List<RandomItem>) {
+        initAdapter(dataSet)
+        hideProgressBar()
+        enableClickEvents()
+    }
+
+    private fun isLoading() {
+        disableClickEvents()
+        showProgressBar()
+    }
+
+    private fun showProgressBar() {
+        customComponentProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        customComponentProgressBar.visibility = View.GONE
+    }
+
+    private fun setButtonsVisibility() {
         customComponentRefreshListF.visibility = View.GONE
         customComponentSeeMoreC.visibility = View.VISIBLE
         customComponentRefreshListC.visibility = View.VISIBLE
     }
 
-    private fun setSeeMoreBtn() {
+    private fun disableClickEvents() {
+        customComponentSeeMoreC.isClickable = false
+        customComponentRefreshListC.isClickable = false
+    }
+
+    private fun enableClickEvents() {
+        customComponentSeeMoreC.isClickable = true
+        customComponentRefreshListC.isClickable = true
+    }
+
+    private fun setClickEvents() {
         customComponentSeeMoreC.setOnClickListener {
-            findNavController().navigate(R.id.action_screenOneFragment_to_screenTwoFragment)
+            navigateToSecondFragment()
         }
+
+        customComponentRefreshListC.setOnClickListener { refreshAdapterData() }
+    }
+
+    private fun navigateToSecondFragment() {
+        viewModel.goToSecondFragment()
     }
 
     private fun initAdapter(randomItems: List<RandomItem>) {

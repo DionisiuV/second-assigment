@@ -9,7 +9,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private val viewModel: MainViewModel by inject(MainViewModel::class.java)
+    private val viewModel: MainActivityViewModel by inject(MainActivityViewModel::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     private fun getCurrentLocation(): String {
-        return viewModel.getNavController().currentDestination!!.label.toString()
+        return viewModel.getCurrentLocation()
     }
 
 }

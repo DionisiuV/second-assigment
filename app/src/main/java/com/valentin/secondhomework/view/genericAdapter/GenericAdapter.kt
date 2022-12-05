@@ -24,6 +24,11 @@ class GenericAdapter<T> private constructor() : Adapter<GenericViewHolder<T>>() 
         return dataSet.size
     }
 
+    fun clearDataSet() {
+        dataSet = emptyList()
+        notifyItemRangeInserted(0, 0)
+    }
+
 
     class Builder<T> {
 

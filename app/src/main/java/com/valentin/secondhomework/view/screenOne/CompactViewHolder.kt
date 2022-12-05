@@ -8,7 +8,6 @@ import kotlinx.android.synthetic.main.item_compact.view.*
 
 class CompactViewHolder : GenericBindingInterface<RandomItem> {
     override fun bindData(item: RandomItem, view: View, position: Int) {
-
         setText(item, view)
         setItemPosition(item, position)
     }

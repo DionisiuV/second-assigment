@@ -12,18 +12,17 @@ class MainActivityNavServiceProvider : MainActivityNavService {
 
 
     override fun setupNavService(activity: MainActivity) {
+
         if (shouldSetupNav())
             initNavService(activity)
-        else
-            throw Exception("Nav for MainActivity was already setup!")
-    }
-
-    override fun getNavController(): NavController {
-        return navController
     }
 
     override fun navigateTo(destinationOrAction: Int) {
         navController.navigate(destinationOrAction)
+    }
+
+    override fun getCurrentLocation(): String {
+        return navController.currentDestination!!.label.toString()
     }
 
     private fun initNavService(activity: MainActivity) {

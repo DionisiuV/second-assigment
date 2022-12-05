@@ -1,11 +1,13 @@
 package com.valentin.secondhomework.model.service.dataService
 
-import androidx.lifecycle.MutableLiveData
 import com.valentin.secondhomework.model.data.RandomItem
+import io.reactivex.Single
 
 interface DataService {
 
-    fun getData(): MutableLiveData<List<RandomItem>>
+    fun getRandomItemsFromApi(): Single<List<RandomItem>>
 
-    fun setData(randomItems: List<RandomItem>)
+    fun getRandomItemsFromCache(): List<RandomItem>
+
+    fun setRandomItemsToCache(dataSet: List<RandomItem>)
 }

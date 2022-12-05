@@ -1,32 +1,32 @@
 package com.valentin.secondhomework.model.service.dataService
 
-import androidx.lifecycle.MutableLiveData
-import com.valentin.secondhomework.model.data.RandomItemwq
+import android.util.Log
+import com.valentin.secondhomework.model.data.RandomItem
+import com.valentin.secondhomework.model.service.networkService.NetworkService
+import io.reactivex.Single
 
-class DataServiceProvider : DataService {
+class DataServiceProvider(
+    private val networkService: NetworkService
+) : DataService {
 
-    private val randomItemList = MutableLiveData<List<RandomItem>>()
+    private var randomItemList: List<RandomItem> = listOf()
 
 
-    override fun getData(): MutableLiveData<List<RandomItem>> {
-        if (isRandomItemListEmpty())
-        //if list is empty, get data from the api
-            setHardCodedValue()
+    override fun getRandomItemsFromApi(): Single<List<RandomItem>> {
+        return networkService.getMockData(getHardCodedValue())
+    }
 
+    override fun getRandomItemsFromCache(): List<RandomItem> {
         return randomItemList
     }
 
-    override fun setData(randomItems: List<RandomItem>) {
-        //make api call and post value
+    override fun setRandomItemsToCache(dataSet: List<RandomItem>) {
+        Log.d("DEBUG_TAG", "DataService.setRandomItemsToCache()  -> $dataSet")
+        this.randomItemList = dataSet
     }
 
-
-    private fun isRandomItemListEmpty(): Boolean {
-        return randomItemList.value == null
-    }
-
-    private fun setHardCodedValue() {
-        randomItemList.value = listOf(
+    private fun getHardCodedValue(): List<RandomItem> {
+        return listOf(
             RandomItem("Item1", "Red", "Desc1"),
             RandomItem("Item2", "Green", "Desc2"),
             RandomItem("Item3", "Blue", "Desc3"),
