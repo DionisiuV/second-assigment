@@ -3,7 +3,6 @@ package com.valentin.secondhomework.view.fragment.screenTwo
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import com.valentin.secondhomework.R
 import com.valentin.secondhomework.base.BaseFragment
 import com.valentin.secondhomework.model.data.RandomItem
@@ -24,12 +23,13 @@ class ScreenTwoFragment : BaseFragment(R.layout.fragment_screen_two) {
         setClickEvents()
     }
 
-    override fun onBackPressedAction(): OnBackPressedCallback {
-        return object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                viewModel.goToFirstFragment()
-            }
-        }
+    override fun onBackPressedActionDispatcher() {
+        viewModel.handleUiEvents("navigateToFirstFragment")
+    }
+
+
+    private fun setViewModelObservers() {
+        viewModel.setObserver(::observingViewModelEvents)
     }
 
     private fun observingViewModelEvents(eventType: String, data: Any?) {
@@ -42,22 +42,17 @@ class ScreenTwoFragment : BaseFragment(R.layout.fragment_screen_two) {
         }
     }
 
-    private fun setViewModelObservers() {
-        viewModel.setObserver(::observingViewModelEvents)
-    }
-
     private fun loadDataFromDataSources() {
         viewModel.handleUiEvents("loadDataFromDataSources")
     }
 
+    private fun setClickEvents() {
+        customUiComponent.setFullViewClickEvents(::refreshAdapterData)
+    }
 
     private fun refreshAdapterData() {
         customUiComponent.updateAdapterDataSet(emptyList())
         viewModel.handleUiEvents("refreshData")
-    }
-
-    private fun setClickEvents() {
-        customUiComponent.setFullViewClickEvents(::refreshAdapterData)
     }
 
     private fun isError() {

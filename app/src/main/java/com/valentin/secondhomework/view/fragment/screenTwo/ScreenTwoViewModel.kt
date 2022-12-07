@@ -34,6 +34,7 @@ class ScreenTwoViewModel(
         when (eventName) {
             "loadDataFromDataSources" -> loadDataFromDataSources()
             "refreshData" -> refreshData()
+            "navigateToFirstFragment" -> goToFirstFragment()
             else -> throw Exception("Unhandled ViewModel event")
         }
     }

@@ -12,5 +12,15 @@ abstract class BaseFragment(view: Int) : Fragment(view) {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedAction())
     }
 
-    abstract fun onBackPressedAction(): OnBackPressedCallback
+    private fun onBackPressedAction(): OnBackPressedCallback {
+        return object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressedActionDispatcher()
+            }
+
+        }
+    }
+
+    abstract fun onBackPressedActionDispatcher()
+
 }

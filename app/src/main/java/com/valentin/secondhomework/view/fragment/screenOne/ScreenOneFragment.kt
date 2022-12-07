@@ -3,7 +3,6 @@ package com.valentin.secondhomework.view.fragment.screenOne
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import com.valentin.secondhomework.R
 import com.valentin.secondhomework.base.BaseFragment
@@ -26,12 +25,8 @@ class ScreenOneFragment : BaseFragment(R.layout.fragment_screen_one) {
         setClickEvents()
     }
 
-    override fun onBackPressedAction(): OnBackPressedCallback {
-        return object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                showCloseAppAlertDialog()
-            }
-        }
+    override fun onBackPressedActionDispatcher() {
+        showCloseAppAlertDialog()
     }
 
     private fun showCloseAppAlertDialog() {
